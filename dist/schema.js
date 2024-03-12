@@ -16,6 +16,8 @@ export const typeDefs = gql `
     subtract(number1: Int!, number2: Int!): Int!
     modulo(number1: Int!, number2: Int!): Int!
     closestColor(targetColor: String!): ColorData
+    getFilms: [Film]!
+    getPeople: [People]!
   }
  
   enum Speciality {
@@ -26,5 +28,18 @@ export const typeDefs = gql `
   type ColorData {
     group: String
     name: String
+  }
+
+  type Film {
+    id: ID!
+    title: String!
+    people: [People]!
+  }
+  
+  type People {
+    id: ID!
+    name: String!
+    eyeColor: String!
+    films: [Film]!
   }
 `;

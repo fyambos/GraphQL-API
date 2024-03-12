@@ -1,5 +1,5 @@
 import { GraphQLError } from "graphql";
-import { doctorsData } from './datasources/data.js';
+import { doctorsData, filmsData, peopleData } from './datasources/data.js';
 import { hexColorData } from './datasources/hex.js';
 import { findClosestColor } from "./colors.js";
 //Implémentation d'un résolver (définit dans le schéma GraphQL)
@@ -68,6 +68,8 @@ export const resolvers = {
             const closestColorKey = findClosestColor(targetColor, hexColorData);
             const closestColor = hexColorData[closestColorKey];
             return closestColor;
-        }
+        },
+        getFilms: () => filmsData,
+        getPeople: () => peopleData,
     },
 };
