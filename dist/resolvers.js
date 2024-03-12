@@ -1,24 +1,23 @@
 //Définition d'une source de données
 const doctorsData = [
     {
-      id: '1',
-      name: 'Samia Mekame',
-      speciality: 'OPHTALMOLOGIST',
+        id: '1',
+        name: 'Samia Mekame',
+        speciality: 'OPHTALMOLOGIST',
     },
     {
-      id: '2',
-      name: 'Catherine Bedoy',
-      speciality: 'PSYCHOLOGIST',
+        id: '2',
+        name: 'Catherine Bedoy',
+        speciality: 'PSYCHOLOGIST',
     },
 ];
-
 //Implémentation d'un résolver (définit dans le schéma GraphQL)
 export const resolvers = {
     Query: {
         doctors: (parent, args, context, info) => doctorsData,
         doctor: (parent, args, context, info) => {
-          const id = args.id
-          return doctorsData.find(d => d.id === id)
+            const id = args.id;
+            return doctorsData.find(d => d.id === id);
         },
     },
 };
