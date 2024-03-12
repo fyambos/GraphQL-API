@@ -14,7 +14,10 @@ const doctorsData = [
 //Implémentation d'un résolver (définit dans le schéma GraphQL)
 export const resolvers = {
     Query: {
-        doctors: (parent, args, context, info) => doctorsData,
+        doctors: (parent, args, context, info) => {
+            const { specialities } = args;
+            return doctorsData.filter(doctor => specialities.includes(doctor.speciality));
+        },
         doctor: (parent, args, context, info) => {
             const id = args.id;
             return doctorsData.find(d => d.id === id);

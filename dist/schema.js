@@ -8,7 +8,7 @@ export const typeDefs = gql `
   }
 
   type Query {
-    doctors: [Doctor]
+    doctors(specialities: [Speciality!]): [Doctor]
     doctor(id: ID!): Doctor
   }
  
