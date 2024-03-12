@@ -11,6 +11,7 @@ export const typeDefs = gql`
   type Query {
     doctors(specialities: [Speciality!]): [Doctor]
     doctor(id: ID!): Doctor
+    divide(number1: Int!, number2: Int!): Float!
   }
  
   enum Speciality {
