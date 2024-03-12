@@ -16,11 +16,16 @@ export const typeDefs = gql`
     add(number1: Int!, number2: Int!): Int!
     subtract(number1: Int!, number2: Int!): Int!
     modulo(number1: Int!, number2: Int!): Int!
-    closestColor(targetColor: String!): String
+    closestColor(targetColor: String!): ColorData
   }
  
   enum Speciality {
     PSYCHOLOGIST
     OPHTALMOLOGIST
+  }
+
+  type ColorData {
+    group: String
+    name: String
   }
 `;

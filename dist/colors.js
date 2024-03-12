@@ -10,21 +10,22 @@ const colorDistance = (color1, color2) => {
     const db = color1.b - color2.b;
     return Math.sqrt(dr * dr + dg * dg + db * db);
 };
-export const findClosestColor = (targetColor, colorArray) => {
+export const findClosestColor = (targetColor, colorsData) => {
     const targetRGB = hexToRGB(targetColor);
-    if (colorArray.length === 0) {
+    const colorKeys = Object.keys(colorsData);
+    if (colorKeys.length === 0) {
         return null;
     }
-    let closestColor = colorArray[0];
-    let minDistance = colorDistance(targetRGB, hexToRGB(closestColor));
-    for (let i = 1; i < colorArray.length; i++) {
-        const currentColor = colorArray[i];
-        const currentRGB = hexToRGB(currentColor);
+    let closestColorKey = colorKeys[0];
+    let minDistance = colorDistance(targetRGB, hexToRGB(closestColorKey));
+    for (let i = 1; i < colorKeys.length; i++) {
+        const currentColorKey = colorKeys[i];
+        const currentRGB = hexToRGB(currentColorKey);
         const distance = colorDistance(targetRGB, currentRGB);
         if (distance < minDistance) {
             minDistance = distance;
-            closestColor = currentColor;
+            closestColorKey = currentColorKey;
         }
     }
-    return closestColor;
+    return closestColorKey;
 };
