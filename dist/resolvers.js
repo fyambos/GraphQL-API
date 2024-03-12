@@ -1,17 +1,6 @@
 import { GraphQLError } from "graphql";
-//Définition d'une source de données
-const doctorsData = [
-    {
-        id: '1',
-        name: 'Samia Mekame',
-        speciality: 'OPHTALMOLOGIST',
-    },
-    {
-        id: '2',
-        name: 'Catherine Bedoy',
-        speciality: 'PSYCHOLOGIST',
-    },
-];
+import { doctorsData, colorsData } from './datasources/data.js';
+import { findClosestColor } from "./colors.js";
 //Implémentation d'un résolver (définit dans le schéma GraphQL)
 export const resolvers = {
     Query: {
@@ -48,6 +37,11 @@ export const resolvers = {
                 throw new GraphQLError('cannot divide by 0');
             }
             return number1 % number2;
-        }
+        },
+        closestColor: (parent, args, context, info) => {
+            const { targetColor } = args;
+            const closestColor = findClosestColor(targetColor, colorsData);
+            return closestColor;
+        },
     },
 };
