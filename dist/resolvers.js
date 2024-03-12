@@ -2,6 +2,7 @@ import { GraphQLError } from "graphql";
 import { doctorsData, filmsData, peopleData } from './datasources/data.js';
 import { hexColorData } from './datasources/hex.js';
 import { findClosestColor } from "./colors.js";
+
 //Implémentation d'un résolver (définit dans le schéma GraphQL)
 export const resolvers = {
     Query: {
@@ -72,4 +73,26 @@ export const resolvers = {
         getFilms: () => filmsData,
         getPeople: () => peopleData,
     },
+    Mutation: {
+        async incrementTrackViews(_, {id}, context, info) {
+          try {
+            const track = await context.dataSources.trackAPI.incrementTrackViews(id)
+            const message = `Successfully incremented number of views for track ${id}`
+      
+            return {
+              code: 200,
+              message,
+              success: Boolean(track),
+              track,
+            }
+          } catch(err) {
+            return {
+              code: 304,
+              message: (err as Error)?.message ?? 'Resource not modified, an internal error occured',
+              success: false,
+              track: null,
+            }
+          }
+        }
+    }
 };

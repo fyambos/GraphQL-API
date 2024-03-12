@@ -2,32 +2,33 @@ import { GraphQLError } from "graphql";
 import { doctorsData, filmsData, peopleData } from './datasources/data.js';
 import { hexColorData } from './datasources/hex.js';
 import { findClosestColor } from "./colors.js";
+
 //Implémentation d'un résolver (définit dans le schéma GraphQL)
 export const resolvers = {
     Query: {
         doctors: (parent, args, context, info) => {
-            const {specialities} = args
+            const { specialities } = args;
             if (!Array.isArray(specialities) || specialities.length === 0) {
                 throw new GraphQLError('invalid specialty');
             }
-            return doctorsData.filter(doctor => specialities.includes(doctor.speciality))
-          },
+            return doctorsData.filter(doctor => specialities.includes(doctor.speciality));
+        },
         doctor: (parent, args, context, info) => {
-            const id = args.id
+            const id = args.id;
             if (!id || typeof id !== 'string') {
                 throw new GraphQLError('invalid id');
             }
-            return doctorsData.find(d => d.id === id)
+            return doctorsData.find(d => d.id === id);
         },
         divide: (parent, args, context, info) => {
-            const {number1, number2} = args
+            const { number1, number2 } = args;
             if (typeof number1 !== 'number' || typeof number2 !== 'number') {
                 throw new GraphQLError('must be numbers');
             }
             if (number2 === 0) {
-              throw new GraphQLError('cannot divide by 0')
+                throw new GraphQLError('cannot divide by 0');
             }
-            return number1 / number2
+            return number1 / number2;
         },
         multiply: (parent, args, context, info) => {
             const { number1, number2 } = args;
@@ -56,7 +57,7 @@ export const resolvers = {
                 throw new GraphQLError('must be numbers');
             }
             if (number2 === 0) {
-              throw new GraphQLError('cannot divide by 0');
+                throw new GraphQLError('cannot divide by 0');
             }
             return number1 % number2;
         },
@@ -72,4 +73,27 @@ export const resolvers = {
         getFilms: () => filmsData,
         getPeople: () => peopleData,
     },
+    
+    Mutation: {
+        async incrementTrackViews(_, {id}, context, info) {
+          try {
+            const track = await context.dataSources.trackAPI.incrementTrackViews(id)
+            const message = `Successfully incremented number of views for track ${id}`
+      
+            return {
+              code: 200,
+              message,
+              success: Boolean(track),
+              track,
+            }
+          } catch(err) {
+            return {
+              code: 304,
+              message: (err as Error)?.message ?? 'Resource not modified, an internal error occured',
+              success: false,
+              track: null,
+            }
+          }
+        }
+    }
 };
