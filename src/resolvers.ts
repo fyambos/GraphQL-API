@@ -32,5 +32,24 @@ export const resolvers = {
             }
             return number1 / number2
         },
+        multiply: (parent, args, context, info) => {
+            const { number1, number2 } = args;
+            return number1 * number2;
+        },
+        add: (parent, args, context, info) => {
+            const { number1, number2 } = args;
+            return number1 + number2;
+        },
+        subtract: (parent, args, context, info) => {
+            const { number1, number2 } = args;
+            return number1 - number2;
+        },
+        modulo: (parent, args, context, info) => {
+            const { number1, number2 } = args;
+            if (number2 === 0) {
+              throw new GraphQLError('cannot divide by 0');
+            }
+            return number1 % number2;
+        }
     },
 };
